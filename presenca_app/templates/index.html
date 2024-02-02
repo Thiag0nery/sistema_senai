@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <title>Controle de Salas</title>
+  
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  
+</head>
+<body>
+   <div id="loading" class="align-items-center justify-content-center">
+           <div class="text-center">
+               <img class="loading_gif" src="{% static  'imagens/loading-loading-forever.gif' %}" alt="GIF" >
+            <p class="mt-1">Carregando...</p>
+           </div>
+        </div>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">
+        <img src="{% static 'imagens/senai.png' %}" alt="Logo" width="150">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+        <div id="aviso" class="esconder">
+
+    </div>
+
+    <div class="ml-auto import-button-container">
+        
+        <form method="post" enctype="multipart/form-data" action="{% url 'importar_csv' %}">
+            {% csrf_token %}
+            <input type="file" name="arquivo_csv" accept=".csv" id="arquivo-csv" onchange="arquivoValidacao()">
+            <button type="submit" class="btn btn-outline-light" id="btn-arquivo" >Importar</button>
+        </form>
+    </div>
+    <div>
+      
+      <form method="post" enctype="multipart/form-data" action="{% url 'redirecionar_para_admin' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-light">Admin</button>
+      </form>
+  </div>
+  </nav>
+  
+
+<main class="container-fluid">
+
+  <table class="table table-bordered">
+    <thead>
+      <tr class="colum">
+
+        <th  colspan="2" style="color: white;">TURNO:
+            <form action="{% url 'pesquisa' %}" method="GET" onchange="changePesquisaTurno()" class="d-inline">
+                 <select  class="form-select"  aria-label="Floating label select example" id="turnoSelecionado" name="turno">
+                    <option value="MATUTINO">Matutino</option>
+                     <option value="VESPERTINO">Vespertino</option>
+                     <option value="NOTURNO">Noturno</option>
+                </select>
+            </form>
+        </th>
+        <th style="color: white;" colspan="2">DATA:
+        <input type="date" name="date" value="{{data}}" id="date" onchange="changePesquisaTurno()">
+            {{data}}
+        </th>
+
+        <th colspan="4" style="color:white;">ALOCAÇAO DE ESPAÇOS DIDATICOS </th>                                
+      </tr>
+      <tr>
+        <th>Sala</th>
+        <th>Curso</th>
+        <th>Turma</th>
+        <th>Professor</th>
+        <th>Disciplina</th>
+        <th>Data</th>
+        <th>Hora inicial</th>
+        <th>Hora final</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registro in registros_salvos %}
+      <tr>
+          <td>{{ registro.sala }}</td>
+          <td>{{ registro.curso }}</td>
+          <td>{{ registro.turma }}</td>
+          <td>{{ registro.professor }}</td>
+          <td>{{ registro.disciplina }}</td>
+          <td>{{ registro.data }}</td> 
+          <td>
+
+              {% if not registro.hora_inicial%}
+              <form method="post" action="{% url 'salvar_hora' %}">
+                {% csrf_token %}
+                <input type="hidden" name="registro_id" value="{{ registro.id }}">
+                <input type="hidden" name="tipo_hora" value="inicial">
+
+                <button type="submit" class="btn btn-primary pegar Retirar">Retirar</button>
+
+
+          </form>
+              {%else%}
+                <button type="button" class="btn btn-primary" style="background:green;">Retirou</button>
+               {%endif%}
+        </td> 
+        <td>
+             {% if not registro.hora_final %}
+          <form method="post" action="{% url 'salvar_hora' %}">
+            {% csrf_token %}
+            <input type="hidden" name="registro_id" value="{{ registro.id }}">
+            <input type="hidden" name="tipo_hora" value="final">
+
+            <button type="submit" class="btn btn-primary pegar Devolver">Devolver</button>
+
+          </form>
+            {%else%}
+                <button type="button" class="btn btn-primary" style="background:green;">Devolvido</button>
+            {%endif%}
+        </td> 
+      </tr>
+  {% endfor %}
+ 
+    </tbody>
+  </table>
+  <div id="modal">
+    <div id="container_modal">
+        <span id="fechar">&times;</span>
+        <form action="{% url 'user_authentication' %}" method="post" id="form-user">
+             {% csrf_token %}
+            <label for="username_id">Nome de Usuário</label>
+        <input required type="text" name="username" id="username_id">
+
+        <label for="username_id">Senha</label>
+        <input required type="password" name="password" id="password_id">
+        <input type="text" style="display:none;" id="nome-prof" name="registro_id">
+        <button class="btn btn-primary" id="btn-user" type="submit">Autenticar</button>
+        </form>
+    </div>
+  </div>
+</main>
+
+ 
+  <footer>
+    <div class="container">
+      <p>&copy;  Senai 2024. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+  
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="{% static 'js/index.js' %}">
+
+  </script>
+    <script>
+    arquivo_csv = document.getElementById('arquivo-csv')
+    btn_arquivo = document.getElementById('btn-arquivo')
+    function changePesquisaTurno(){
+    var turnoSelecionado = document.getElementById('turnoSelecionado').value;
+    var date =  document.getElementById('date').value;
+        // Constrói a URL com base no valor selecionado
+        var url = '{% url 'pesquisa' %}?turno=' + encodeURIComponent(turnoSelecionado) + '&date='+ encodeURIComponent(date);
+
+        // Redireciona para a nova URL
+        window.location.href = url;
+    }
+        var urlParams = new URLSearchParams(window.location.search);
+
+        var turnoUrl = urlParams.get('turno');
+        var dataUrl = urlParams.get('date');
+        console.log(dataUrl)
+        if (turnoUrl){
+        document.getElementById('turnoSelecionado').value = turnoUrl;
+         document.getElementById('date').value = dataUrl
+        }
+        function arquivoValidacao(){
+        console.log(arquivo_csv.value)
+        if(arquivo_csv.value){
+          btn_arquivo.style.visibility = 'visible'
+         }else{
+            btn_arquivo.style.visibility = 'hidden'
+         }
+
+        }
+  </script>
+</body>
+</html>
