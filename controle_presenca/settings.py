@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-eux4ptvn4dx_ddjg@585he_lc6$i)a#4uzq4^w-o5#(r95k#m5
 DEBUG = True
 
 ALLOWED_HOSTS = ['131.0.245.253', 'localhost', '127.0.0.1', '131.0.245.253']
+from django.contrib.auth.password_validation import CommonPasswordValidator
 
 
 # Application definition
@@ -92,6 +93,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 3,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -101,6 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Desative a verificação de senhas comuns
+AUTH_PASSWORD_VALIDATORS.remove({'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'})
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
