@@ -26,8 +26,12 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('first_name','username', 'password1', 'password2'),
         }),
     )
+class RegistroProfessorAdmin(admin.ModelAdmin):
+    list_display = ('id', 'sala', 'curso', 'turma', 'professor', 'disciplina', 'data', 'turno')
+    list_filter = ('sala', 'curso', 'turma', 'professor', 'disciplina', 'turno')
+    ordering = ('-id',)
 
 # Registrar o modelo User com o novo admin
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(RegistroProfessor)
+admin.site.register(RegistroProfessor, RegistroProfessorAdmin)
