@@ -43,8 +43,8 @@ def pesquisa(request):
 
     return render(request, 'index.html', {'registros_salvos': registros_salvos})
 def importar_csv(request):
-    registros_salvos = []  
-    data_inicial = None  
+    registros_salvos = []
+    data_inicial = None
 
     if request.method == 'POST' and request.FILES['arquivo_csv']:
         arquivo = request.FILES['arquivo_csv']
@@ -52,7 +52,7 @@ def importar_csv(request):
         print(dados_csv)
 
 
-        for dado in dados_csv[2:]:
+        """for dado in dados_csv[2:]:
             print(dado['turno'])
             registro_professor = RegistroProfessor(
                 sala=dado['sala'],
@@ -64,7 +64,7 @@ def importar_csv(request):
                 turno=dado['turno']
             )
             registro_professor.save()
-            registros_salvos.append(registro_professor)
+            registros_salvos.append(registro_professor)"""
 
 
     return redirect('index')
@@ -83,14 +83,35 @@ def teste_arquivo_csv(arquivo):
     bool_turno = ''
     data = ''
     sala = ''
-    file = arquivo.read().decode('utf-8').splitlines()
-    linhas_nao_vazias = [linha for linha in file if linha.strip()]
-    reader = csv.reader(linhas_nao_vazias, delimiter=';')
-    for _ in range(5):
-        next(reader)
 
-    for linha in enumerate(reader):
+    file = arquivo.read().decode('latin-1').splitlines()
 
+    reader = csv.reader(file, delimiter=';')
+
+    next(reader)
+    for linha,tabela in enumerate(reader):
+
+        if tabela[0]:
+
+            if(tabela[0] == 'TURNO' or tabela[5]):
+                turno = tabela[1]
+                data = tabela[7]
+                continue
+            elif(tabela[0] == 'SALA'):
+                continue
+
+            registro_professor = RegistroProfessor(
+                sala=tabela[0],
+                curso=tabela[2],
+                turma=tabela[4],
+                professor=tabela[6],
+                disciplina=tabela[9],
+                data=data,
+                turno=turno
+            )
+            registro_professor.save()
+    """for linha in enumerate(reader):
+        print(linha[1][0])
         if len(linha[1]) >= 14 and linha[1][0]:
             if not(linha[1][0] == 'TURNO' or linha[1][0] == 'SALA'):
                 sala = linha[1][0]
@@ -118,7 +139,7 @@ def teste_arquivo_csv(arquivo):
                 'professor': professor,
                 'disciplina': disciplina,
                 'data': data
-            })
+            })"""
 
     return dados
 
