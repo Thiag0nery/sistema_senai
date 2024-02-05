@@ -47,10 +47,10 @@ class CustomUserAdmin(UserAdmin):
             for tabela in reader:
 
                 if tabela and tabela[0] != 'CÓDIGO DO PROFESSOR':
-                    print(tabela[1])
-                    """user = User.objects.create_user(username=tabela[0], first_name=str(tabela[1]),
+
+                    user = User.objects.create_user(username=tabela[0], first_name=str(tabela[1]),
                                                     password=tabela[2])
-                    user.save()"""
+                    user.save()
 
         form = CsvImportForm()
         data ={'form': form}
