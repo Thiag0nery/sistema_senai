@@ -83,7 +83,7 @@ def teste_arquivo_csv(arquivo):
     bool_turno = ''
     data = ''
     sala = ''
-
+    turno = ''
     file = arquivo.read().decode('latin-1').splitlines()
 
     reader = csv.reader(file, delimiter=';')
