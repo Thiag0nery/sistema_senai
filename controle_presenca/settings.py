@@ -84,11 +84,11 @@ if db_name:
     DATABASES = {
         'default': {
             'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
-            'NAME': config('CUSTOM_DB_NAME', default='custom_db'),
-            'USER': config('CUSTOM_DB_USER', default=''),
-            'PASSWORD': config('CUSTOM_DB_PASSWORD', default=''),
-            'HOST': config('CUSTOM_DB_HOST', default=''),
-            'PORT': config('CUSTOM_DB_PORT', default=''),
+            'NAME': config('DB_NAME', default='custom_db'),
+            'USER': config('DB_USER', default=''),
+            'PASSWORD': config('DB_PASSWORD', default=''),
+            'HOST': config('DB_HOST', default=''),
+            'PORT': config('DB_PORT', default=''),
         }
     }
 else:

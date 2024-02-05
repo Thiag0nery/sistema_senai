@@ -55,17 +55,17 @@
       <tr class="colum">
 
         <th  colspan="2" style="color: white;">TURNO:
-            <form action="{% url 'pesquisa' %}" method="GET" onchange="changePesquisaTurno()" class="d-inline">
-                 <select  class="form-select"  aria-label="Floating label select example" id="turnoSelecionado" name="turno">
-                    <option value="MATUTINO">Matutino</option>
-                     <option value="VESPERTINO">Vespertino</option>
-                     <option value="NOTURNO">Noturno</option>
-                </select>
-            </form>
+           <form action="{% url 'pesquisa' %}" method="GET" onchange="changePesquisaTurno()" class="d-inline">
+    <select class="form-select" aria-label="Floating label select example" id="turnoSelecionado" name="turno">
+        <option value="MATUTINO" {% if turno == 'MATUTINO' %}selected{% endif %}>Matutino</option>
+        <option value="VESPERTINO" {% if turno == 'VESPERTINO' %}selected{% endif %}>Vespertino</option>
+        <option value="NOTURNO" {% if turno == 'NOTURNO' %}selected{% endif %}>Noturno</option>
+    </select>
+</form>
         </th>
         <th style="color: white;" colspan="2">DATA:
         <input type="date" name="date" value="{{data}}" id="date" onchange="changePesquisaTurno()">
-            {{data}}
+
         </th>
 
         <th colspan="4" style="color:white;">ALOCAÇAO DE ESPAÇOS DIDATICOS </th>                                

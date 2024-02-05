@@ -11,21 +11,25 @@ from django.contrib.auth import authenticate
 from django.views.decorators.http import require_POST
 
 def index(request):
+    turno = 'MATUTINO'
     data_atual = datetime.now()
-
+    hora = 18
+    if 12 <= hora < 18:
+        turno = 'VESPERTINO'
+    elif 18 <= hora or hora < 6:
+        turno = 'NOTURNO'
+    else:
+        turno = 'MATUTINO'
     data_formatada = data_atual.strftime("%Y-%m-%d")
 
-    try:
+    data_banco = data_atual.strftime("%d/%m/%Y")
 
-        #registro_mais_recente = RegistroProfessor.objects.latest('data')
-        registros_salvos = RegistroProfessor.objects.filter(data=data_formatada)
-        print(data_formatada)
-    except RegistroProfessor.DoesNotExist:
-      
-        registros_salvos = []
+    registros_salvos = RegistroProfessor.objects.filter(data=data_banco, turno=turno)
+
+
 
     return render(request, 'index.html', {'registros_salvos': registros_salvos
-        , 'data':data_formatada})
+        , 'data':data_formatada, 'turno': turno})
 
 def pesquisa(request):
     try:
@@ -33,9 +37,8 @@ def pesquisa(request):
 
         data_obj = datetime.strptime(request.GET.get('date'), "%Y-%m-%d")
 
-
         date = data_obj.strftime("%d/%m/%Y")
-        print(date)
+
         registros_salvos = RegistroProfessor.objects.filter(data=date, turno=turno)
     except RegistroProfessor.DoesNotExist:
 
