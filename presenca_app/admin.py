@@ -10,6 +10,8 @@ from .models import RegistroProfessor
 
 class CsvImportForm(forms.Form):
     csv_upload = forms.FileField()
+class CsvRegistroProfessorForm(forms.Form):
+    csv_upload = forms.FileField()
 class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, label='Nome do professor')
     username = forms.CharField(label='Usuário')
@@ -59,6 +61,48 @@ class RegistroProfessorAdmin(admin.ModelAdmin):
     list_display = ('id', 'sala', 'curso', 'turma', 'professor', 'disciplina', 'data', 'turno')
     list_filter = ('sala', 'curso', 'turma', 'professor', 'disciplina', 'turno')
     ordering = ('-id',)
+    def get_urls(self):
+        urls = super().get_urls()
+        new_urls = [path('upload-registro-csv/', self.upload_registro_csv),]
+        return new_urls + urls
+    def upload_registro_csv(self, request):
+
+
+        if request.method == 'POST' and request.FILES['csv_upload']:
+            arquivo = request.FILES['csv_upload']
+            dados = []
+            data = ''
+            turno = ''
+            file = arquivo.read().decode('latin-1').splitlines()
+
+            reader = csv.reader(file, delimiter=';')
+
+            next(reader)
+            for linha, tabela in enumerate(reader):
+
+                if tabela[0]:
+
+                    if (tabela[0] == 'TURNO' or tabela[5]):
+                        turno = tabela[1]
+                        data = tabela[7]
+                        continue
+                    elif (tabela[0] == 'SALA'):
+                        continue
+
+                    registro_professor = RegistroProfessor(
+                        sala=tabela[0],
+                        curso=tabela[2],
+                        turma=tabela[4],
+                        professor=tabela[6],
+                        disciplina=tabela[9],
+                        data=data,
+                        turno=turno
+                    )
+                    registro_professor.save()
+
+        form = CsvRegistroProfessorForm()
+        data ={'form': form}
+        return render(request, 'admin/csv_upload_registro.html', data)
 
 # Registrar o modelo User com o novo admin
 admin.site.unregister(User)

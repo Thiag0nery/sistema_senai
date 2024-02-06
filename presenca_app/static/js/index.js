@@ -2,6 +2,9 @@ modal = document.getElementById('modal')
 form_user = document.getElementById('form-user')
 nome_porf = document.getElementById('nome-prof')
 loading = document.getElementById('loading')
+var dataAtual = new Date();
+        var hora = dataAtual.getHours();
+        var minutos = dataAtual.getMinutes();
 function mostrarAviso(text, color="#e93f4f") {
   var aviso = document.getElementById('aviso');
   aviso.textContent = text
@@ -87,11 +90,11 @@ document.querySelector('#fechar').addEventListener('click', function() {
           if (response.success) {
                 button.disabled = false;
               if (button.classList.contains('Retirar')) {
-                button.textContent = 'Retirou';
+                button.textContent = `Retirou ${hora}:${minutos}`;
                 button.style.backgroundColor = 'green';
               } else if (button.classList.contains('Devolver')) {
 
-                button.textContent = 'Devolvido';
+                button.textContent = `Devolvido ${hora}:${minutos}`;
                 button.style.backgroundColor = 'green';
               }
             }})

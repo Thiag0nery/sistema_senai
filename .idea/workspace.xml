@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="eb0a95cb-2368-4c0d-80bd-9308bed2d1c1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presenca_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/presenca_app/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presenca_app/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/presenca_app/static/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presenca_app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/presenca_app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presenca_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/presenca_app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,14 +39,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Thiago/Desktop/sistema_senai"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Thiago/Desktop/sistema_senai&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Thiago\Desktop\sistema_senai" />

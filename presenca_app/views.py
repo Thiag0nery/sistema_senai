@@ -13,7 +13,7 @@ from django.views.decorators.http import require_POST
 def index(request):
     turno = 'MATUTINO'
     data_atual = datetime.now()
-    hora = 18
+    hora = int(data_atual.strftime("%H"))
     if 12 <= hora < 18:
         turno = 'VESPERTINO'
     elif 18 <= hora or hora < 6:
@@ -83,9 +83,7 @@ def processar_arquivo_csv(arquivo):
     return dados
 def teste_arquivo_csv(arquivo):
     dados = []
-    bool_turno = ''
     data = ''
-    sala = ''
     turno = ''
     file = arquivo.read().decode('latin-1').splitlines()
 
