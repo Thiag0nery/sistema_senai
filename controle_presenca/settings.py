@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-eux4ptvn4dx_ddjg@585he_lc6$i)a#4uzq4^w-o5#(r95k#m5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['131.0.245.253', 'localhost', '127.0.0.1', '131.0.245.253']
+ALLOWED_HOSTS = ['131.0.245.253', 'localhost', '127.0.0.1', '131.0.245.253','192.168.20.137']
 from django.contrib.auth.password_validation import CommonPasswordValidator
 
 
@@ -144,7 +144,7 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-SECURE_SSL_REDIRECT = True
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
