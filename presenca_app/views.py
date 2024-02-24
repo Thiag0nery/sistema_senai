@@ -148,11 +148,12 @@ def salvar_hora(request):
     if request.method == 'POST':
         registro_id = request.POST.get('registro_id')
         tipo_hora = request.POST.get('tipo_hora')
-        print(request.POST)
+        data_atual = datetime.now()
+        hora = data_atual.strftime("%H:%M")
         try:
             registro = RegistroProfessor.objects.get(pk=registro_id)
 
-            print(f'Tipo Hora: {tipo_hora}')
+            print(tipo_hora)
 
             if tipo_hora == 'inicial':
                 registro.hora_inicial = datetime.now().time()
@@ -164,7 +165,7 @@ def salvar_hora(request):
             registro.save()
 
 
-            return JsonResponse({'success': True})
+            return JsonResponse({'success': True, 'hora': hora})
         except RegistroProfessor.DoesNotExist:
             return JsonResponse({'success': False, 'error_message': 'Registro não encontrado'})
         except Exception as e:

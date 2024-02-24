@@ -98,8 +98,10 @@ class RegistroProfessorAdmin(admin.ModelAdmin):
                         data=data,
                         turno=turno
                     )
-                    registro_professor.save()
 
+                    dados.append(registro_professor)
+
+        RegistroProfessor.objects.bulk_create(dados)
         form = CsvRegistroProfessorForm()
         data ={'form': form}
         return render(request, 'admin/csv_upload_registro.html', data)

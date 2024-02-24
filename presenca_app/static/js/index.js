@@ -16,14 +16,26 @@ function mostrarAviso(text, color="#e93f4f") {
 }
 
 
-document.querySelectorAll('.btn-primary').forEach((btn) => {
+document.querySelectorAll('.Retirar').forEach((btn) => {
     btn.addEventListener('click', (event) =>{
 
         event.preventDefault();
         modal.style.display = 'block';
 
         document.querySelector('#btn-user').addEventListener('click', (form) => {
+            form.preventDefault();
+            registraHora(btn, form_user)
+        })
+    })
+})
+document.querySelectorAll('.Devolver').forEach((btn) => {
+    btn.addEventListener('click', (event) =>{
 
+        event.preventDefault();
+        modal.style.display = 'block';
+
+        document.querySelector('#btn-user').addEventListener('click', (form) => {
+            form.preventDefault();
             registraHora(btn, form_user)
         })
     })
@@ -90,11 +102,11 @@ document.querySelector('#fechar').addEventListener('click', function() {
           if (response.success) {
                 button.disabled = false;
               if (button.classList.contains('Retirar')) {
-                button.textContent = `Retirou ${hora}:${minutos}`;
+                button.textContent = `Retirou ${response.hora}`;
                 button.style.backgroundColor = 'green';
               } else if (button.classList.contains('Devolver')) {
 
-                button.textContent = `Devolvido ${hora}:${minutos}`;
+                button.textContent = `Devolvido ${response.hora}`;
                 button.style.backgroundColor = 'green';
               }
             }})
