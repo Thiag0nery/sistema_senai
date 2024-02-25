@@ -146,17 +146,20 @@ def teste_arquivo_csv(arquivo):
 
 def salvar_hora(request):
     if request.method == 'POST':
+
         registro_id = request.POST.get('registro_id')
         tipo_hora = request.POST.get('tipo_hora')
         data_atual = datetime.now()
         hora = data_atual.strftime("%H:%M")
+        print('Passou aqui no salvar_hora com o valor: ' + tipo_hora)
         try:
             registro = RegistroProfessor.objects.get(pk=registro_id)
 
-            print(tipo_hora)
+
 
             if tipo_hora == 'inicial':
-                registro.hora_inicial = datetime.now().time()
+                if not registro.hora_inicial:
+                    registro.hora_inicial = datetime.now().time()
             elif tipo_hora == 'final':
                 registro.hora_final = datetime.now().time()
 
@@ -180,7 +183,7 @@ def user_authentication(request):
         password = request.POST.get('password')
         print(request.POST)
         exist = authenticate(request, username=username, password=password)
-
+        print('Passou aqui no user_authentication com o valor: ' + username)
         if not exist:
 
             return JsonResponse({'success': False, 'error_message': 'Usuario ou senha incorretos'})
