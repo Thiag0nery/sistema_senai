@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import RegistroProfessor 
 from datetime import datetime
 from django.db.models import Max
+from unidecode import unidecode
 import csv
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -185,13 +186,12 @@ def user_authentication(request):
         exist = authenticate(request, username=username, password=password)
         print('Passou aqui no user_authentication com o valor: ' + username)
         if not exist:
-
             return JsonResponse({'success': False, 'error_message': 'Usuario ou senha incorretos'})
         else:
             registro_id = request.POST.get('registro_id')
             registro = RegistroProfessor.objects.filter(id=registro_id)[0]
 
-            if not (registro.professor == exist.first_name):
+            if not (unidecode(registro.professor) == unidecode(exist.first_name)):
                 return JsonResponse({'success': False,
                                      'error_message':
                                          'O nome do professor fornecido não corresponde ao registro'

@@ -14,7 +14,7 @@ function mostrarAviso(text, color="#e93f4f") {
   aviso.classList.remove('esconder');
   setTimeout(function() {
     aviso.classList.add('esconder');
-  }, 5000); // Oculta o aviso após 3 segundos (3000 milissegundos)
+  }, 7000); // Oculta o aviso após 7 segundos (7000 milissegundos)
 }
 
 document.querySelectorAll('.Retirar').forEach((btn) => {
