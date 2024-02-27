@@ -182,9 +182,8 @@ def user_authentication(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(request.POST)
-        exist = authenticate(request, username=username, password=password)
-        print('Passou aqui no user_authentication com o valor: ' + username)
+        exist = authenticate(request, username=username.upper(), password=password)
+
         if not exist:
             return JsonResponse({'success': False, 'error_message': 'Usuario ou senha incorretos'})
         else:

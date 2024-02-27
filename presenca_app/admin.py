@@ -26,6 +26,13 @@ class CustomUserCreationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].required = True
 
+    def save(self, commit=True):
+        user = super(CustomUserCreationForm, self).save(commit=False)
+        user.username = self.cleaned_data['username'].upper()  # Convertendo para maiúsculas
+        if commit:
+            user.save()
+        return user
+
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     add_fieldsets = (
@@ -50,7 +57,7 @@ class CustomUserAdmin(UserAdmin):
 
                 if tabela and tabela[0] != 'CÓDIGO DO PROFESSOR':
 
-                    user = User.objects.create_user(username=tabela[0], first_name=str(tabela[1]),
+                    user = User.objects.create_user(username=tabela[0].upper(), first_name=str(tabela[1]),
                                                     password=tabela[2])
                     user.save()
 
@@ -61,6 +68,7 @@ class RegistroProfessorAdmin(admin.ModelAdmin):
     list_display = ('id', 'sala', 'curso', 'turma', 'professor', 'disciplina', 'data', 'turno')
     list_filter = ('sala', 'curso', 'turma', 'professor', 'disciplina', 'turno')
     ordering = ('-id',)
+
     def get_urls(self):
         urls = super().get_urls()
         new_urls = [path('upload-registro-csv/', self.upload_registro_csv),]

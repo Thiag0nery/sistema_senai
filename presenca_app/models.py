@@ -22,5 +22,6 @@ class RegistroProfessor(models.Model):
     def __str__(self):
         return f"{self.id} - {self.sala} - {self.curso} - {self.turma} - {self.professor} - {self.disciplina} - {self.data} - {self.turno}"
 
-
+    class Meta:
+        verbose_name_plural = 'Registro de Sala'
 
