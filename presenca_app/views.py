@@ -191,7 +191,7 @@ def user_authentication(request):
             registro_id = request.POST.get('registro_id')
             registro = RegistroProfessor.objects.filter(id=registro_id)[0]
 
-            if not (unidecode(registro.professor) == unidecode(exist.first_name)):
+            if not (unidecode(registro.professor.lower()) == unidecode(exist.first_name.lower())):
                 return JsonResponse({'success': False,
                                      'error_message':
                                          'O nome do professor fornecido não corresponde ao registro'
