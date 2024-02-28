@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import RegistroProfessor 
 from datetime import datetime
-from django.db.models import Max
+from django.contrib import messages
 from unidecode import unidecode
 import csv
 from django.http import JsonResponse
@@ -53,24 +53,8 @@ def importar_csv(request):
     if request.method == 'POST' and request.FILES['arquivo_csv']:
         arquivo = request.FILES['arquivo_csv']
         dados_csv = teste_arquivo_csv(arquivo)
-        print(dados_csv)
 
-
-        """for dado in dados_csv[2:]:
-            print(dado['turno'])
-            registro_professor = RegistroProfessor(
-                sala=dado['sala'],
-                curso=dado['curso'],
-                turma=dado['turma'],
-                professor=dado['professor'],
-                disciplina=dado['disciplina'],
-                data=dado['data'],
-                turno=dado['turno']
-            )
-            registro_professor.save()
-            registros_salvos.append(registro_professor)"""
-
-
+        messages.add_message(request, messages.SUCCESS, dados_csv)
     return redirect('index')
 
     
@@ -83,7 +67,7 @@ def processar_arquivo_csv(arquivo):
     
     return dados
 def teste_arquivo_csv(arquivo):
-    dados = []
+    mensagem = None
     data = ''
     turno = ''
     file = arquivo.read().decode('latin-1').splitlines()
@@ -91,6 +75,7 @@ def teste_arquivo_csv(arquivo):
     reader = csv.reader(file, delimiter=';')
 
     next(reader)
+
     for linha,tabela in enumerate(reader):
 
         if tabela[0]:
@@ -101,7 +86,10 @@ def teste_arquivo_csv(arquivo):
                 continue
             elif(tabela[0] == 'SALA'):
                 continue
-
+            elif(RegistroProfessor.objects.filter(sala=tabela[0], curso=tabela[2],data=data,professor=tabela[6],
+                                                  turma=tabela[4]).exists()):
+                mensagem = f'O quadro de horário do dia {data} e turno {turno} foi atualizado com sucesso'
+                continue
             registro_professor = RegistroProfessor(
                 sala=tabela[0],
                 curso=tabela[2],
@@ -112,38 +100,10 @@ def teste_arquivo_csv(arquivo):
                 turno=turno
             )
             registro_professor.save()
-    """for linha in enumerate(reader):
-        print(linha[1][0])
-        if len(linha[1]) >= 14 and linha[1][0]:
-            if not(linha[1][0] == 'TURNO' or linha[1][0] == 'SALA'):
-                sala = linha[1][0]
 
-            if linha[1][2]:
-                bool_turno =  linha[1][2]
-            if linha[1][9]:
-                data = linha[1][9]
-            turno = bool_turno
-            data = data
-            turma =  linha[1][6]
-            disciplina = linha[1][12]
-            hora_inicial = linha[1][13]
-            curso = linha[1][3]
-            hora_final = linha[1][15]
-            professor =  linha[1][8]
-            sala = sala
-            dados.append({
-                'hora_inicial': hora_inicial,
-                'hora_final': hora_final,
-                'sala': sala,
-                'curso': curso,
-                'turma':turma,
-                'turno':turno,
-                'professor': professor,
-                'disciplina': disciplina,
-                'data': data
-            })"""
-
-    return dados
+    if not mensagem:
+        mensagem = f'O quadro de horário para a data {data} e turno {turno} foi cadastrado com sucesso!'
+    return mensagem
 
 def salvar_hora(request):
     if request.method == 'POST':

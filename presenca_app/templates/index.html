@@ -23,6 +23,15 @@
         <img src="{% static 'imagens/senai.png' %}" alt="Logo" width="150">
         <img src="{% static 'imagens/Orbita-logo.png' %}" alt="Logo" width="120" class="ml-2">
     </a>
+    {% for message in messages %}
+       {% if message.tags == 'success' %}
+            <div class="mensagem" id="mensagem">
+                {{ message }}
+                <button type="button" id="fechar-mensagem">&times;</button>
+            </div>
+        {% endif %}
+    {% endfor %}
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

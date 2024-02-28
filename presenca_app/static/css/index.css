@@ -64,19 +64,29 @@
   text-decoration: none;
   cursor: pointer;
 }
-#aviso {
+#aviso,.mensagem {
     position: fixed;
     top: 13%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #e93f4f;
     color: #fff;
-    padding: 15px 20px;
+    padding: 19px 38px;
     border-radius: 5px;
     z-index: 9999;
     transition: opacity 0.3s ease-in-out;
 }
+.mensagem{
+    background-color: #88e93f;
 
+}
+#fechar-mensagem{
+    position: absolute;
+    border: none;
+    font-size: 26px;
+    background: none;
+    top: -5px;
+    right: 0px;
+}
 .esconder {
   opacity: 0;
   visibility: hidden;

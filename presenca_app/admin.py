@@ -13,7 +13,7 @@ class CsvImportForm(forms.Form):
 class CsvRegistroProfessorForm(forms.Form):
     csv_upload = forms.FileField()
 class CustomUserCreationForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=True, label='Nome do professor')
+    first_name = forms.CharField(max_length=150, required=True, label='Nome do professor')
     username = forms.CharField(label='Usuário')
     password1 = forms.CharField(widget=forms.PasswordInput, label='Senha')
     password2 = forms.CharField(widget=forms.PasswordInput, label='Confirmação de Senha')

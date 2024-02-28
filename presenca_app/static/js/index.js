@@ -4,6 +4,18 @@ nome_porf = document.getElementById('nome-prof')
 form = null
 button = null
 loading = document.getElementById('loading')
+var mensagem = document.getElementById('mensagem');
+var btn_mensagem = document.getElementById('fechar-mensagem');
+if(mensagem && btn_mensagem){
+setTimeout(function() {
+    mensagem.classList.add('esconder');
+}, 5000);
+
+btn_mensagem.addEventListener('click', (event)=>{
+    mensagem.classList.add('esconder');
+})
+}
+
 var dataAtual = new Date();
         var hora = dataAtual.getHours();
         var minutos = dataAtual.getMinutes();
