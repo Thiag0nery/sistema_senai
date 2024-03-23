@@ -33,19 +33,30 @@ document.querySelectorAll('.Retirar').forEach((btn) => {
     btn.addEventListener('click', (event) =>{
 
         event.preventDefault();
+        if(btn.classList.contains('Retirar')){
+
+
+
         modal.style.display = 'block';
         form = btn.closest('form');
         button = btn
+        }
 
     })
 })
+// Ele não carrega o arquivo novamente, por isso o bug.
 document.querySelectorAll('.Devolver').forEach((btn) => {
     btn.addEventListener('click', (event) =>{
+     event.preventDefault();
+        if(btn.classList.contains('Devolver')){
 
-        event.preventDefault();
+
+
         modal.style.display = 'block';
         form = btn.closest('form');
         button = btn
+        }
+
     })
 })
 
@@ -99,12 +110,21 @@ function registraHora(){
                 }).then(function(response){
                     if (response.success) {
                         button.disabled = false;
+
                       if (button.classList.contains('Retirar')) {
                         button.textContent = `Retirou ${response.hora}`;
+                        button.classList.remove('Retirar');
+                        button.classList.remove('pegar');
+
                         button.style.backgroundColor = 'green';
+                        return;
                       } else if (button.classList.contains('Devolver')) {
                         button.textContent = `Devolvido ${response.hora}`;
                         button.style.backgroundColor = 'green';
+                        button.classList.remove('Devolver');
+                         button.classList.remove('pegar');
+
+                           return;
                       }
                     }})
                 .catch(function(error) {
